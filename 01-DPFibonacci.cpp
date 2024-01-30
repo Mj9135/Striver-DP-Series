@@ -32,7 +32,7 @@ int fibo2(int n)
         return n;
     for (int i = 2; i <= n; i++)
     {
-        int ans = prev + prev2;
+        int ans = prev1 + prev2;
         prev2 = prev1;
         prev1 = ans;
     }
