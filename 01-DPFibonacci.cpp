@@ -45,8 +45,8 @@ int main()
     cin >> n;
     vector<int> dp(n + 1, -1);
     // cout << fibo(n, dp);
-    // cout << fibo2(n);
-    cout << fibo3(n, dp);
+    cout << fibo2(n);
+    // cout << fibo3(n, dp);
 
     return 0;
 }
