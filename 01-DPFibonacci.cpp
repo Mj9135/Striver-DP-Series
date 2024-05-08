@@ -4,7 +4,7 @@ using namespace std;
 int fibo1(int n, vector<int> &dp)
 {
     if (n <= 1)
-        return n;
+        return n + 1;
     if (dp[n] != -1)
         return dp[n];
 
