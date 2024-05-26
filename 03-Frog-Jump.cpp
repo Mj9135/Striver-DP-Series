@@ -41,16 +41,16 @@ int solve2(int ind, vector<int> &height, vector<int> &dp)
     if (ind <= 0)
         return dp[ind];
 
-    for (int i = 1; i < ind - 1; i++)
+    for (int i = 1; i <= ind; i++)
     {
-        int left = solve1(ind - 1, height, dp) + abs(height[ind] - height[ind - 1]);
+        int left = dp[i - 1] + abs(height[i] - height[i - 1]);
         int right = INT_MAX;
-        if (ind > 1)
+        if (i > 1)
         {
-            right = solve1(ind - 2, height, dp) + abs(height[ind] - height[ind - 2]);
+            right = dp[i - 2] + abs(height[i] - height[i - 2]);
         }
 
-        dp[ind] = min(left, right);
+        dp[i] = min(left, right);
     }
     return dp[ind];
 }
@@ -64,11 +64,11 @@ int solve3(int ind, vector<int> &height)
         return ind;
     for (int i = 1; i <= ind; i++)
     {
-        int left = prev + abs(height[ind] - height[ind - 1]);
+        int left = prev + abs(height[i] - height[i - 1]);
         int right = INT_MAX;
-        if (ind > 1)
+        if (i > 1)
         {
-            right = prev2 + abs(height[ind] - height[ind - 2]);
+            right = prev2 + abs(height[i] - height[i - 2]);
         }
         int curr = min(left, right);
         prev2 = prev;
