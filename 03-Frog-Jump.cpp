@@ -1,59 +1,88 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
-// Memoization function to find the minimum cost of frog jumping
-int solve(int ind, vector<int> &height, vector<int> &dp)
+// Recursion Way to solve
+int solve2(int ind, vector<int> &height)
 {
-    // Base case: when the frog is at the first stone
     if (ind == 0)
         return 0;
-
-    // If the result for this index is already computed, return it
-    if (dp[ind] != -1)
-        return dp[ind];
-
-    // Initialize cost for jumping one and two stones
-    int jumpTwo = INT_MAX;
-    int jumpOne = solve(ind - 1, height, dp) + abs(height[ind] - height[ind - 1]);
-
-    // Check if jumping two stones is valid (index > 1)
+    int left = solve2(ind - 1, height) + abs(height[ind] - height[ind - 1]);
+    int right = INT_MAX;
     if (ind > 1)
-        jumpTwo = solve(ind - 2, height, dp) + abs(height[ind] - height[ind - 2]);
-
-    // Choose the minimum cost between jumping one and two stones
-    return dp[ind] = min(jumpOne, jumpTwo);
+    {
+        int right = solve2(ind - 2, height) + abs(height[ind] - height[ind - 2]);
+    }
+    int ans = min(left, right);
+    return ans;
 }
 
-int main()
+// Memoization Technique
+int solve1(int ind, vector<int> &height, vector<int> &dp)
 {
-    // Input heights of stones
-    vector<int> height{30, 10, 60, 10, 60, 50};
-    int n = height.size();
-
-    // Initialize variables to keep track of the previous two results
-    int prev = 0;
-    int prev2 = 0;
-
-    // Loop to calculate the minimum cost of frog jumping
-    for (int i = 1; i < n; i++)
+    if (ind == 0)
+        return 0;
+    if (dp[ind] != -1)
+        return dp[ind];
+    int left = solve1(ind - 1, height, dp) + abs(height[ind] - height[ind - 1]);
+    int right = INT_MAX;
+    if (ind > 1)
     {
-        int jumpTwo = INT_MAX;
-        int jumpOne = prev + abs(height[i] - height[i - 1]);
-
-        // Check if jumping two stones is valid (index > 1)
-        if (i > 1)
-            jumpTwo = prev2 + abs(height[i] - height[i - 2]);
-
-        // Choose the minimum cost between jumping one and two stones
-        int cur_i = min(jumpOne, jumpTwo);
-
-        // Update previous two results for the next iteration
-        prev2 = prev;
-        prev = cur_i;
+        right = solve1(ind - 2, height, dp) + abs(height[ind] - height[ind - 2]);
     }
 
-    // Output the minimum cost of frog jumping
-    cout << prev;
+    dp[ind] = min(left, right);
+    return dp[ind];
+}
+
+// Tabulization without space optimization
+int solve2(int ind, vector<int> &height, vector<int> &dp)
+{
+    dp[0] = 0;
+    if (ind <= 0)
+        return dp[ind];
+
+    for (int i = 1; i < ind - 1; i++)
+    {
+        int left = solve1(ind - 1, height, dp) + abs(height[ind] - height[ind - 1]);
+        int right = INT_MAX;
+        if (ind > 1)
+        {
+            right = solve1(ind - 2, height, dp) + abs(height[ind] - height[ind - 2]);
+        }
+
+        dp[ind] = min(left, right);
+    }
+    return dp[ind];
+}
+
+// Tabulization  with space optimization
+int solve3(int ind, vector<int> &height)
+{
+    int prev = 0;
+    int prev2 = 0;
+    if (ind <= 0)
+        return ind;
+    for (int i = 1; i <= ind; i++)
+    {
+        int left = prev + abs(height[ind] - height[ind - 1]);
+        int right = INT_MAX;
+        if (ind > 1)
+        {
+            right = prev2 + abs(height[ind] - height[ind - 2]);
+        }
+        int curr = min(left, right);
+        prev2 = prev;
+        prev = curr;
+    }
+    return prev;
+}
+int main()
+{
+
+    vector<int> height{10, 20, 30, 10};
+    int n = height.size();
+    vector<int> dp(n, -1);
+    int ans = solve3(n - 1, height);
+    cout << ans;
     return 0;
 }
