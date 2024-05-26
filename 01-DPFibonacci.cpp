@@ -36,7 +36,7 @@ int fibo2(int n)
         prev2 = prev1;
         prev1 = ans;
     }
-    return prev2;
+    return prev1;
 }
 int main()
 {
