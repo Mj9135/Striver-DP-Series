@@ -1,7 +1,7 @@
 //{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
-// Recursion
+// Recursion g
 int solve2(int days, int last, vector<vector<int>> &points)
 {
     if (days == 0)
