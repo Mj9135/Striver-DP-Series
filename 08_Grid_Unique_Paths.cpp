@@ -74,7 +74,7 @@ int main()
 {
     int m = 3;
     int n = 2;
-    vector<vector<int>> dp(m, vector<int>(n, -1));
+    vector<vector<int>> dp(m, vector<int>(n, -1)); 
     int ans = countWaysUtil3(m, n);
     cout << "Number of ways to reach (" << m - 1 << ", " << n - 1 << "): " << ans << endl;
     return 0;
